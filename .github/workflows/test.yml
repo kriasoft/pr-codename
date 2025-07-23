@@ -1,0 +1,57 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+
+      - name: Test auto-detect PR number
+        id: auto
+        uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print auto-detected result
+        run: |
+          echo "PR Number: ${{ steps.auto.outputs.number }}"
+          echo "Codename: ${{ steps.auto.outputs.codename }}"
+
+      - name: Test explicit number
+        id: explicit
+        uses: ./
+        with:
+          number: 123
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print explicit result
+        run: |
+          echo "Explicit Number: ${{ steps.explicit.outputs.number }}"
+          echo "Explicit Codename: ${{ steps.explicit.outputs.codename }}"
+
+      - name: Test with template
+        id: template
+        uses: ./
+        with:
+          number: 456
+          template: "env-{codename}-{number}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print template result
+        run: |
+          echo "Template Number: ${{ steps.template.outputs.number }}"
+          echo "Template Codename: ${{ steps.template.outputs.codename }}"
+          echo "Template Formatted: ${{ steps.template.outputs.formatted }}"

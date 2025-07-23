@@ -1,0 +1,29 @@
+{
+  "name": "pr-codename",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1",
+    "codenames": "^1.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@types/node": "^24.1.0",
+    "@vercel/ncc": "^0.38.3",
+    "eslint": "^9.31.0",
+    "jiti": "^2.5.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0"
+  },
+  "scripts": {
+    "build": "ncc build index.ts -o dist --source-map --license licenses.txt",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "node --test --experimental-strip-types index.test.ts"
+  }
+}

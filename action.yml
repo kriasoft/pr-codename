@@ -1,0 +1,31 @@
+# GitHub Action Metadata
+# https://docs.github.com/en/actions/reference/metadata-syntax-reference
+# https://docs.github.com/en/actions/tutorials/creating-a-javascript-action
+
+name: "PR Codename"
+author: "Konstantin Tarkus"
+description: "Generate deterministic, human-readable codenames from numbers (same number always produces the same codename)"
+
+inputs:
+  number:
+    description: "Number to convert to codename (defaults to PR number in pull_request events)"
+    required: false
+  template:
+    description: "Output template with placeholders. Supports: {codename}, {number}"
+    required: false
+
+outputs:
+  codename:
+    description: "The deterministic codename (e.g., 'london', 'paris') - same number always produces same result"
+  number:
+    description: "The number used to generate the codename"
+  formatted:
+    description: "The result of applying the template (only available when template input is provided)"
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
+
+branding:
+  icon: "hash"
+  color: "purple"

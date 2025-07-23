@@ -1,0 +1,19 @@
+# Built files (excluded during development, included in releases)
+dist/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local markdown files
+*.local.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo
