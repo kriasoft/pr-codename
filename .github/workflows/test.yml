@@ -1,0 +1,170 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    name: Lint, Format & Unit Test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+      - run: npm ci
+
+      # Run code quality checks
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+
+      # Run unit tests
+      - run: npm test
+
+      # Build the action
+      - run: npm run build
+
+  integration-test:
+    runs-on: ubuntu-latest
+    name: Integration Tests
+    needs: lint-and-test
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+
+      - name: Test auto-detect PR number
+        id: auto
+        uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate auto-detected result
+        run: |
+          if [ -z "${{ steps.auto.outputs.number }}" ]; then
+            echo "❌ Error: No number output from auto-detect test"
+            exit 1
+          fi
+          if [ -z "${{ steps.auto.outputs.codename }}" ]; then
+            echo "❌ Error: No codename output from auto-detect test"
+            exit 1
+          fi
+          echo "✅ Auto-detect test passed:"
+          echo "   PR Number: ${{ steps.auto.outputs.number }}"
+          echo "   Codename: ${{ steps.auto.outputs.codename }}"
+
+      - name: Test explicit number
+        id: explicit
+        uses: ./
+        with:
+          number: 123
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate explicit result
+        run: |
+          if [ "${{ steps.explicit.outputs.number }}" != "123" ]; then
+            echo "❌ Error: Expected number 123, got ${{ steps.explicit.outputs.number }}"
+            exit 1
+          fi
+          if [ -z "${{ steps.explicit.outputs.codename }}" ]; then
+            echo "❌ Error: No codename output from explicit test"
+            exit 1
+          fi
+          echo "✅ Explicit number test passed:"
+          echo "   Number: ${{ steps.explicit.outputs.number }}"
+          echo "   Codename: ${{ steps.explicit.outputs.codename }}"
+
+      - name: Test with template
+        id: template
+        uses: ./
+        with:
+          number: 456
+          template: "env-{codename}-{number}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate template result
+        run: |
+          if [ "${{ steps.template.outputs.number }}" != "456" ]; then
+            echo "❌ Error: Expected number 456, got ${{ steps.template.outputs.number }}"
+            exit 1
+          fi
+          if [ -z "${{ steps.template.outputs.codename }}" ]; then
+            echo "❌ Error: No codename output from template test"
+            exit 1
+          fi
+          if [ -z "${{ steps.template.outputs.formatted }}" ]; then
+            echo "❌ Error: No formatted output from template test"
+            exit 1
+          fi
+          # Check that formatted output contains expected pattern
+          if [[ ! "${{ steps.template.outputs.formatted }}" =~ ^env-.*-456$ ]]; then
+            echo "❌ Error: Formatted output doesn't match expected pattern 'env-{codename}-456'"
+            echo "   Got: ${{ steps.template.outputs.formatted }}"
+            exit 1
+          fi
+          echo "✅ Template test passed:"
+          echo "   Number: ${{ steps.template.outputs.number }}"
+          echo "   Codename: ${{ steps.template.outputs.codename }}"
+          echo "   Formatted: ${{ steps.template.outputs.formatted }}"
+
+      - name: Test deterministic behavior
+        id: deterministic1
+        uses: ./
+        with:
+          number: 999
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test deterministic behavior (repeat)
+        id: deterministic2
+        uses: ./
+        with:
+          number: 999
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate deterministic behavior
+        run: |
+          if [ "${{ steps.deterministic1.outputs.codename }}" != "${{ steps.deterministic2.outputs.codename }}" ]; then
+            echo "❌ Error: Same number produced different codenames (not deterministic)"
+            echo "   First run: ${{ steps.deterministic1.outputs.codename }}"
+            echo "   Second run: ${{ steps.deterministic2.outputs.codename }}"
+            exit 1
+          fi
+          echo "✅ Deterministic behavior test passed:"
+          echo "   Number: 999 consistently produces: ${{ steps.deterministic1.outputs.codename }}"
+
+      - name: Test edge case - zero
+        id: edge_zero
+        uses: ./
+        with:
+          number: 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate edge case - zero
+        run: |
+          if [ "${{ steps.edge_zero.outputs.number }}" != "0" ]; then
+            echo "❌ Error: Expected number 0, got ${{ steps.edge_zero.outputs.number }}"
+            exit 1
+          fi
+          if [ -z "${{ steps.edge_zero.outputs.codename }}" ]; then
+            echo "❌ Error: No codename output for edge case zero"
+            exit 1
+          fi
+          echo "✅ Edge case (zero) test passed:"
+          echo "   Number: ${{ steps.edge_zero.outputs.number }}"
+          echo "   Codename: ${{ steps.edge_zero.outputs.codename }}"
