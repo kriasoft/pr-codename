@@ -29882,9 +29882,9 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 async function getNumber() {
     // Method 1: Explicit input parameter
     const explicitNumber = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("number");
-    if (explicitNumber) {
+    if (explicitNumber !== "") {
         const parsed = parseInt(explicitNumber, 10);
-        if (isNaN(parsed) || parsed <= 0) {
+        if (isNaN(parsed) || parsed < 0) {
             console.log(`Invalid number input: "${explicitNumber}"`);
             return null;
         }
@@ -29932,7 +29932,7 @@ async function getNumber() {
 }
 try {
     const number = await getNumber();
-    if (!number) {
+    if (number === null) {
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)("Could not determine number from context or API");
         process.exit(1);
     }

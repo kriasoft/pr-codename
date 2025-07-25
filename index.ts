@@ -53,9 +53,9 @@ import { codename, themes, type Theme } from "codenames/all";
 async function getNumber(): Promise<number | null> {
   // Method 1: Explicit input parameter
   const explicitNumber = getInput("number");
-  if (explicitNumber) {
+  if (explicitNumber !== "") {
     const parsed = parseInt(explicitNumber, 10);
-    if (isNaN(parsed) || parsed <= 0) {
+    if (isNaN(parsed) || parsed < 0) {
       console.log(`Invalid number input: "${explicitNumber}"`);
       return null;
     }
@@ -113,7 +113,7 @@ async function getNumber(): Promise<number | null> {
 try {
   const number = await getNumber();
 
-  if (!number) {
+  if (number === null) {
     setFailed("Could not determine number from context or API");
     process.exit(1);
   }
