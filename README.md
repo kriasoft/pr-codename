@@ -44,7 +44,7 @@ Now your PRs get friendly names automatically. Your teammates will thank you (pr
 | Input      | Description                                                   | Required | Default       |
 | ---------- | ------------------------------------------------------------- | -------- | ------------- |
 | `number`   | Number to convert (auto-detects PR number)                    | No       | Auto-detected |
-| `theme`    | Word theme to use (see available themes below)                | No       | `animals-20`  |
+| `theme`    | Word theme to use (see available themes below)                | No       | `cities-20`   |
 | `template` | Output template with `{codename}` and `{number}` placeholders | No       | -             |
 
 ### Outputs
@@ -59,12 +59,12 @@ Now your PRs get friendly names automatically. Your teammates will thank you (pr
 
 Pick your flavor of memorable names:
 
-- **Animals**: `animals-10`, `animals-20`, `animals-30`, `animals-50`, `animals-100`
-- **Cities**: `cities-10`, `cities-20`, `cities-30`, `cities-50`, `cities-100`
-- **Colors**: `colors-10`, `colors-20`, `colors-30`, `colors-50`, `colors-100`
-- **Food**: `food-10`, `food-20`, `food-30`, `food-50`, `food-100`
-- **Nature**: `nature-10`, `nature-20`, `nature-30`, `nature-50`, `nature-100`
-- **Plus**: adjectives, clothing, countries, elements, emotions, gems, snacks
+- [**Animals**](https://github.com/kriasoft/codenames/blob/main/words/animals.txt): [`animals-10`](https://github.com/kriasoft/codenames/blob/main/words/animals-10.ts), [`animals-20`](https://github.com/kriasoft/codenames/blob/main/words/animals-20.ts), [`animals-30`](https://github.com/kriasoft/codenames/blob/main/words/animals-30.ts), [`animals-50`](https://github.com/kriasoft/codenames/blob/main/words/animals-50.ts), [`animals-100`](https://github.com/kriasoft/codenames/blob/main/words/animals-100.ts)
+- [**Cities**](https://github.com/kriasoft/codenames/blob/main/words/cities.txt): [`cities-10`](https://github.com/kriasoft/codenames/blob/main/words/cities-10.ts), [`cities-20`](https://github.com/kriasoft/codenames/blob/main/words/cities-20.ts), [`cities-30`](https://github.com/kriasoft/codenames/blob/main/words/cities-30.ts), [`cities-50`](https://github.com/kriasoft/codenames/blob/main/words/cities-50.ts), [`cities-100`](https://github.com/kriasoft/codenames/blob/main/words/cities-100.ts)
+- [**Colors**](https://github.com/kriasoft/codenames/blob/main/words/colors.txt): [`colors-10`](https://github.com/kriasoft/codenames/blob/main/words/colors-10.ts), [`colors-20`](https://github.com/kriasoft/codenames/blob/main/words/colors-20.ts), [`colors-30`](https://github.com/kriasoft/codenames/blob/main/words/colors-30.ts), [`colors-50`](https://github.com/kriasoft/codenames/blob/main/words/colors-50.ts), [`colors-100`](https://github.com/kriasoft/codenames/blob/main/words/colors-100.ts)
+- [**Food**](https://github.com/kriasoft/codenames/blob/main/words/food.txt): [`food-10`](https://github.com/kriasoft/codenames/blob/main/words/food-10.ts), [`food-20`](https://github.com/kriasoft/codenames/blob/main/words/food-20.ts), [`food-30`](https://github.com/kriasoft/codenames/blob/main/words/food-30.ts), [`food-50`](https://github.com/kriasoft/codenames/blob/main/words/food-50.ts), [`food-100`](https://github.com/kriasoft/codenames/blob/main/words/food-100.ts)
+- [**Nature**](<(https://github.com/kriasoft/codenames/blob/main/words/nature.txt)>): [`nature-10`](https://github.com/kriasoft/codenames/blob/main/words/nature-10.ts), [`nature-20`](https://github.com/kriasoft/codenames/blob/main/words/nature-20.ts), [`nature-30`](https://github.com/kriasoft/codenames/blob/main/words/nature-30.ts), [`nature-50`](https://github.com/kriasoft/codenames/blob/main/words/nature-50.ts), [`nature-100`](https://github.com/kriasoft/codenames/blob/main/words/nature-100.ts)
+- **Plus**: [`adjectives`](https://github.com/kriasoft/codenames/blob/main/words/adjectives.txt), [`clothing`](https://github.com/kriasoft/codenames/blob/main/words/clothing.txt), [`countries`](https://github.com/kriasoft/codenames/blob/main/words/countries.txt), [`elements`](https://github.com/kriasoft/codenames/blob/main/words/elements.txt), [`emotions`](https://github.com/kriasoft/codenames/blob/main/words/emotions.txt), [`gems`](https://github.com/kriasoft/codenames/blob/main/words/gems.txt), [`snacks`](https://github.com/kriasoft/codenames/blob/main/words/snacks.txt)
 
 The number indicates how many words are in that theme (more words = less chance of repeats, but potentially less memorable names).
 

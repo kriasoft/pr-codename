@@ -118,7 +118,7 @@ try {
     process.exit(1);
   }
 
-  const themeInput = getInput("theme") || "animals-20";
+  const themeInput = getInput("theme") || "cities-20";
 
   if (!themes.includes(themeInput as Theme)) {
     setFailed(
