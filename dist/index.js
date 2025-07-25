@@ -29936,7 +29936,7 @@ try {
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)("Could not determine number from context or API");
         process.exit(1);
     }
-    const themeInput = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("theme") || "animals-20";
+    const themeInput = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("theme") || "cities-20";
     if (!codenames_all__WEBPACK_IMPORTED_MODULE_2__/* .themes */ .Zj.includes(themeInput)) {
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(`Invalid theme "${themeInput}". Available themes: ${codenames_all__WEBPACK_IMPORTED_MODULE_2__/* .themes */ .Zj.join(", ")}`);
         process.exit(1);
