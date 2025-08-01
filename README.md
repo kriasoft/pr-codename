@@ -41,11 +41,12 @@ Now your PRs get friendly names automatically. Your teammates will thank you (pr
 
 ### Inputs
 
-| Input      | Description                                                   | Required | Default       |
-| ---------- | ------------------------------------------------------------- | -------- | ------------- |
-| `number`   | Number to convert (auto-detects PR number)                    | No       | Auto-detected |
-| `theme`    | Word theme to use (see available themes below)                | No       | `cities-20`   |
-| `template` | Output template with `{codename}` and `{number}` placeholders | No       | -             |
+| Input      | Description                                                   | Required | Default                |
+| ---------- | ------------------------------------------------------------- | -------- | ---------------------- |
+| `number`   | Number to convert (auto-detects PR number)                    | No       | Auto-detected          |
+| `theme`    | Word theme to use (see available themes below)                | No       | `cities-20`            |
+| `template` | Output template with `{codename}` and `{number}` placeholders | No       | -                      |
+| `token`    | GitHub token for API access (for push events)                 | No       | `GITHUB_TOKEN` env var |
 
 ### Outputs
 
@@ -188,10 +189,37 @@ The magic happens in the [codenames library](https://github.com/kriasoft/codenam
 
 No randomness, no database, no external calls. Just pure, predictable naming.
 
+## GitHub Token Setup
+
+For push events and other non-PR contexts, the action needs GitHub API access to find the associated PR. Add these permissions to your workflow:
+
+```yaml
+jobs:
+  codename:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read # Required for API fallback
+    steps:
+      - uses: kriasoft/pr-codename@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # Explicit token
+```
+
+Or use the environment variable approach:
+
+```yaml
+- uses: kriasoft/pr-codename@v1
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Environment variable
+```
+
+The action will gracefully handle missing tokens by falling back to manual number input.
+
 ## Common Issues
 
 **Q: Why am I getting "Could not determine number"?**  
-A: The action tries to auto-detect PR numbers, but if you're not in a PR context, pass the `number` input manually.
+A: The action tries to auto-detect PR numbers, but if you're not in a PR context, pass the `number` input manually or ensure proper GitHub token permissions.
 
 **Q: Can I use custom word lists?**  
 A: Not directly in this action, but you can fork the [codenames library](https://github.com/kriasoft/codenames) and add your own themes.

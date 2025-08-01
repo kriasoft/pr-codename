@@ -73,7 +73,7 @@ async function getNumber(): Promise<number | null> {
   }
 
   // Method 4: API fallback using commit SHA
-  const token = process.env.GITHUB_TOKEN;
+  const token = getInput("token") || process.env.GITHUB_TOKEN;
   if (!token) {
     console.log("No GITHUB_TOKEN provided for API fallback");
     return null;

@@ -13,6 +13,9 @@ inputs:
   template:
     description: "Output template with placeholders. Supports: {codename}, {number}"
     required: false
+  token:
+    description: "GitHub token for API access (defaults to GITHUB_TOKEN environment variable)"
+    required: false
 
 outputs:
   codename:

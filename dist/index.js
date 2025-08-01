@@ -29899,7 +29899,7 @@ async function getNumber() {
         return _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.issue.number;
     }
     // Method 4: API fallback using commit SHA
-    const token = process.env.GITHUB_TOKEN;
+    const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("token") || process.env.GITHUB_TOKEN;
     if (!token) {
         console.log("No GITHUB_TOKEN provided for API fallback");
         return null;
